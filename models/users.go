@@ -1,4 +1,4 @@
-package model
+package models
 
 import (
 	"errors"
@@ -11,7 +11,7 @@ import (
 )
 
 type User struct {
-	ID        uint64    `gorm:"primary_key;auto_increment" json:"id"`
+	ID        uint32    `gorm:"primary_key;auto_increment" json:"id"`
 	Name      string    `gorm:"size:45;not null;unique" json:"name"`
 	UserName  string    `gorm:"size:100;not null;unique" json:"username"`
 	Password  string    `gorm:"size:100;not null;" json:"password"`

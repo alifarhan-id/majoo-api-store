@@ -31,22 +31,23 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	token, err := server.SignIn(user.Email, user.Password)
+	token, err := server.SignIn(user.UserName, user.Password)
 	if err != nil {
 		formattedError := formaterror.FormatError(err.Error())
 		responses.ERROR(w, http.StatusUnprocessableEntity, formattedError)
 		return
 	}
-	responses.JSON(w, http.StatusOK, token)
+	res := responses.LoginResponse{StatusCode: 200, Success: true, Token: token}
+	responses.JSON(w, http.StatusOK, res)
 }
 
-func (server *Server) SignIn(email, password string) (string, error) {
+func (server *Server) SignIn(username, password string) (string, error) {
 
 	var err error
 
 	user := models.User{}
 
-	err = server.DB.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
+	err = server.DB.Debug().Model(models.User{}).Where("user_name = ?", username).Take(&user).Error
 	if err != nil {
 		return "", err
 	}

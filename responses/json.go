@@ -6,6 +6,18 @@ import (
 	"net/http"
 )
 
+type HomeResponse struct {
+	StatusCode uint32 `json:"statusCode"`
+	Success    bool   `json:"success"`
+	Message    string `json:"message"`
+}
+
+type LoginResponse struct {
+	StatusCode uint32 `json:"statusCode"`
+	Success    bool   `json:"success"`
+	Token      string `json:"token"`
+}
+
 func JSON(w http.ResponseWriter, statusCode int, data interface{}) {
 	w.WriteHeader(statusCode)
 	err := json.NewEncoder(w).Encode(data)
